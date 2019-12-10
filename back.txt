@@ -1,0 +1,168 @@
+﻿webpack
+通过一个入口文件 来逐层的识别模块依赖(comminjs,import) 进行分析 转换代码 编译代码 打包生成最后的一个代码
+loader
+是一个转换器 将a文件编译为b 是单纯的转换过程 可以通过babel将es6转换为es5
+plugin 
+是一个扩展器 针对的是loader结束后 webpack打包的过程 不直接操作文件 基于事件机制工作 监听事件 执行任务
+DefinePlugin 配置环境变量
+CommonsChunkPlugin  提取公共模块
+ProvidePlugin 自动加载模块
+
+二叉排序树（bst）
+若左子树不空，左子树上的结点的值均小于根结点的值。若右字数不为空，则均大于根结点的值
+bst 搜索
+1 先于这棵树根比 2 比根小就和树根的左子树比 否则跟右子树比 3 重复2(递归)
+ 
+平衡二叉树（avl）是在bst的基础上引入的
+左子树和右子树的深度之差的绝对值不超过1 且它的左子树和右子树都是avl。
+
+函数的callee 和 caller区别
+callee 正在被执行函数的引用 指向定义的函数 arguements.callee.length 形参数量
+caller 调用他的函数的引用 A.caller 指向谁调用了A函数    顶层则为null
+
+函数防抖 函数节流
+函数防抖 多少毫秒内连续触发事件，不会执行 只会执行一次
+function debounce(method,delay){
+    	var timer  = null
+   	return function(){
+   	 	let self = this,
+        args = arguments;
+        timer && clearTimeout(timer);
+        timer = setTimeout(function () {
+            method.apply(self,args);
+        },delay);
+   	}
+}
+window.onscroll = debounce(function () {
+    let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    console.log('滚动条位置：' + scrollTop);
+},200)
+函数节流
+触发函数事件后，短时间间隔内无法连续调用，只有上一次函数执行后，过了规定的时间间隔，才能进行下一次的函数调用。
+function throttle(method,mutRunDelay){
+	var start,timer,args = arsguements
+	return function loop(){
+		let self = this;
+        let now = Date.now();
+        if(!start){
+            start = now;
+        }
+        if(timer){
+            clearTimeout(timer);
+        }
+        if(now - start >= mustRunDelay){
+            method.apply(self, args);
+            start = now;
+        }else {
+            timer = setTimeout(function () {
+                loop.apply(self, args);
+            }, 50);
+        }	
+	}
+}
+window.onscroll = throttle(function () {
+    let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+    console.log('滚动条位置：' + scrollTop);
+},800)
+
+手写实现bind
+
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+
+  var aArgs   = Array.prototype.slice.call(arguments, 1)
+  var that = this 
+  var NoFunc = function() {}
+  var resultFunc = function() {
+    return that.apply(this instanceof that ? this : newThis, aArgs.concat(Array.prototype.slice.call(arguments))) //看是通过什么方法调用的 this在that上的话 说明是new出来的 不在的话
+    证明是普通的bind调用
+  } 
+  NoFunc.prototype = that.prototype
+  resultFunc.prototype = new NoFunc() 防止修改会直接修改要绑定的函数原型  加了中间一层 通过原型链访问 
+  return resultFunc
+
+  };
+}
+
+原型 
+js中的对象分为普通对象和函数对象
+通过new Function 出来的是函数对象 function Aa(){}  var Aa=function(){}....  typeof Aa  Function   有prototype属性    
+但是 var bb = new Aa()  是普通对象  无prototype属性
+因此函数对象的prototype属性就相当于是Aa的一个实例  Aa.prototype = new Aa() 只不过是自动创建的   typeof Aa.prototype  obj 
+因此 Function.prototype = new Function() 因此Fucntion的prototype是函数对象 typeof Function.prototype Function
+
+每个对象都有_proto_属性
+所有构造函数的_proto_指向Function.prototype     Array   Persion  Date.. Object.__proto__ ....
+Person.prototype.__proto__  Obj.prototype  prototype就是一个对象 构造函数是Object   
+Object.prototype null 原型链的尽头
+
+比如 var aa = []; 为何有slice方法 tostring方法； aa是没有call等函数方法的 
+原型链是通过__proto_来进行搜索的 跟constructor没关系
+aa 是Array的实例 因此 aa._proto_ 指向Array.prototype对象 数组方法在这上面 
+Array.prototype._proto_  指向Obj原型对象因此有对象方法
+
+为何Array有call等方法  
+Array是Function对象的实例对象 Array._proto_ 为Fucntion.prototype 因此有函数方法
+var animal = function(){};
+ var dog = function(){};
+ animal.price = 2000;
+ dog.prototype = animal;
+ var tidy = new dog();
+ console.log(dog.price) //undefined
+ console.log(tidy.price) // 2000
+
+var animal = function(){};
+ var dog = function(){};
+ animal.price = 2000;
+ dog = animal;
+ var tidy = new dog();
+ console.log(dog.price) //2000
+ console.log(tidy.price) // undefined
+dog 跟dog.prototype没啥关系 只有一个constructor联系  而原型链是不走constructor的 走的是__proto__
+
+继承
+原型链继承
+var Persion = function (){this.head = '11' this.emotion = ['喜', '怒', '哀', '乐']}
+var student = function(){this.money = '222'}
+student.prototype = new Persion() 
+为何不是student.prototype = Persion.prototype 这样一改student就改了Persion的原型 
+原型对象(Persion)上的任何值都不会被实例重写 覆盖（基本类型 引用类型）在实例上设置与原型对象上同名属性的值，只会在实例上创建一个同名的本地属性。 
+但是引用类型会被修改  致使所有实例共享着的该引用类型的值也会随之改变。
+student.emotion = [1,2,3,] 这个没关系 原型对象不受影响 因为是重写 相当于在实例上建了一个新的 
+student.emotion.push('12312') 这个会影响原型对象 导致所有实例都受影响
+因此，我们得出结论，原型上任何类型的属性值都不会通过实例被重写，但是引用类型的属性值会受到实例的影响而修改
+
+借用构造函数
+var Persion = function (){this.head = '11' this.emotion = ['喜', '怒', '哀', '乐']}
+var student = function(){this.money = '222' Persion.call()}
+这种方法没有上述问题 但是会为每个实例都创建原型对象上的方法 浪费内存 而且修改原型对象上的方法时 已经定义的实例没法修改 只会修改后面的
+
+词法作用域
+var tt = 'aa';
+function test(){
+	alert(tt); undefined
+	var tt = 'dd';
+	alert(tt); dd
+}
+test()
+函数是在它被定义的作用域中运行的 而不是在执行的作用域中运行  
+同名的会覆盖上层的
+
+setTimeout 内部this指向
+由setTimeout()调用的代码运行在与所在函数完全分离的执行环境上 this会指向全局变量
+用bind 箭头函数修改解决。
+
+hasOwnPorperty
+   o = new Object();
+   o.propOne = null;
+   o.hasOwnProperty('propOne');   // returns true
+   o.propTwo = undefined;  
+   o.hasOwnProperty('propTwo');   // returns true
+一般用Object.prototype.hasOwnProperty.call(o.'xxx')
+因为hasOwnProperty会被修改
+var foo = {
+  hasOwnProperty: function() {
+    return false;
+  },
+  bar: 'Here be dragons'
+};

@@ -1,0 +1,36 @@
+﻿兼容性问题
+ 默认内外补丁不同  *{margin0padd0}
+ opacity  opacity: 0.5;filter: alpha(opacity = 50);
+ ie6float margin 双倍   display inline
+ img标签有间距  float布局
+ min-height不兼容   {min-height:200px; height:auto !important;
+height: 200px; overflow:visible;}
+ firefox不支持hand，但ie支持pointer  cursor:pointer;
+ 字体small大小不同   设置指定的字体
+ ie6 3px bug 左侧div浮动left，右边DIV可以接着横向排列，形成典型一列固定，第二列自适应，IE6出现之间3px间隙  对左侧left的盒子补上_margin-right: -3px; 
+css hack
+ie6 #id{  _display: block;  }  ie7 #id{ *display: block; } ie 8#id{ margin-top: 10px /9; 加上空格与斜线并加入一个数字9即可 
+火狐 @-moz-document url-prefix（）{ }  safari @media screen and (-webkit-min-device-pixel-ratio:0) opearOpera解决兼容性的做法也是加上选择器前缀，例如 @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) { ?head~body #id { display: block; } ? }
+
+
+js部分
+
+       a、标准的事件绑定方法函数为addEventListener，但IE下是attachEvent；
+
+       b、事件的捕获方式不一致，标准浏览器是由外至内，而IE是由内到外，但是最后的结果是将IE的标准定为标准
+
+       c、我们常说的事件处理时的event属性，在标准浏览器其是传入的，IE下由window.event获取的。并且获取目标元素的方法也不同，标准浏览器是event.target，而IE下是event.srcElement
+
+       d、在低版本的IE中获取的日期处理函数的值不是与1900的差值，但是在高版本的IE中和标准浏览器保持了一致，获取的值也是与1900的差值。
+   
+       比如：var year= new Date().getYear();
+
+       e、ajax的实现方式不同，这个我所理解的是获取XMLHttpRequest的不同，IE下是activeXObject
+
+       f、IE中不能操作tr的innerHtml
+
+       g、获得DOM节点的父节点、子节点的方式不同
+
+       其他浏览器：parentNode  parentNode.childNodes
+
+       IE：parentElement parentElement.children

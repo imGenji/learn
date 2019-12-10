@@ -1,0 +1,17 @@
+容器属性
+   flex-direction row row-reverse column column-reverse
+   flex-wrap 主轴排不下 该如何处理 nowrap wrap wrap-reverse 
+   flex-flow flex-direction + flex-wrap 
+   当 flex-wrap不折行时 不够分 或有剩余时
+   flex-shrink 缩小 当容器宽度有剩余时 不生效
+   flex-grow 放大   当容器无多余宽度时 不生效
+   justify-content  主轴对齐方式 flex-start -end center space-between space-around
+   align-items 交叉轴上的单行对齐 stretch 当未设置高度 或高度为auto时 填满 flex-start -end center basline
+   align-content 当有多行时 以多行为整体式的对齐 stretch flex-start -end center space-around space-between
+   
+子元素属性
+   flex-basis 元素在主轴上初始尺寸 优先级高于width
+   flex flex-shrink + flex-grow + flex-basis
+   order 顺序
+   
+   

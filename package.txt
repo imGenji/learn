@@ -1,0 +1,4 @@
+react-sortable-hoc
+	将任意的列表转为可以拖拽的列表
+array-move 
+	数组位置转换 arrayMove([1,2,3],0,1)  [2,1,3]

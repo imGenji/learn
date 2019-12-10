@@ -1,0 +1,13 @@
+﻿文字超过一行省略号
+ css  over-flow:hidden; text-overflow:ellipsis;white-space:no-wrap;
+ 不固定宽度的话 可以用padding-right进行宽度控制
+
+
+react location 与 window.location
+pathname 不同
+react  是除basename之外的 /accout/home
+window是文件路径‘
+window.pathname = props.basename+props.pathnames
+react location 只有window location pathname相关的
+没有HTTP://www.aa:9000
+
