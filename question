@@ -44,3 +44,9 @@ console.log(['1.1', '2', '0.3'].map(parse))  // [1,2,0]
          }
      }
  }
+
+ 介绍下 Set、Map、WeakSet 和 WeakMap 的区别？
+    Set 是以[value,value] 储存的 类似于数组，但成员是唯一且无序的，没有重复的值。 add delete has clear size  keys values entries 
+    WeakSet 只能储存对象引用  add has delete
+    Map  是以[key,value]储存的 是 值-值的对应 而对象是是将所有的key都转为字符串 是字符串-值得对应  set get delete has clear size  keys values entries 
+    WeakMap 只接受对象作为键名（null除外） 防止内存泄露
