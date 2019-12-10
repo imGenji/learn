@@ -1,3 +1,46 @@
 react 中的key作用
     简单结构下不带key会就地复用，会更快 但会有副作用导致组建状态混乱
     key的作用为消除就地复用带来的副作用  在diff对比时更快的找到旧节点(不带key是遍历 带key是map)
+
+['1', '2', '3'].map(parseInt) what & why ?
+    1 NaN NaN
+    '1' 0 十进制 1
+    '2' 1 一进制 NaN
+    '3' 2 二进制 NaN
+
+let unary = fn => val => fn(val)
+let parse = unary(parseInt)
+console.log(['1.1', '2', '0.3'].map(parse))  // [1,2,0]
+
+防抖跟节流?
+ 防抖 只会触发一次
+ function debounce(method,delay){
+    var timer = null
+    return function (){
+        var self = this
+        var args = arguments
+        timer && clearTimeout(timer)
+        timer = setTimeout(function(){
+            method.apply(self,args)
+        },delay)
+    }
+ }
+ 节流 每搁一段时间触发一次
+ function throttle(method,delay){
+     return function (){
+         var now = new Date()
+         var self = this
+         var args = arguments
+         if(!start){
+             start = new Date()
+         }
+         timer && clearTimeout(timer)
+         if(now - start >= delay){
+             method.apply(self,args)
+         }else{
+            timer = setTimeout(function () {
+                loop.apply(self, args);
+            }, 50);
+         }
+     }
+ }

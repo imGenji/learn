@@ -40,9 +40,9 @@ window.onscroll = debounce(function () {
 函数节流
 触发函数事件后，短时间间隔内无法连续调用，只有上一次函数执行后，过了规定的时间间隔，才能进行下一次的函数调用。
 function throttle(method,mutRunDelay){
-	var start,timer,args = arsguements
+	var start,timer
 	return function loop(){
-		let self = this;
+		let self = this,args = arsguements
         let now = Date.now();
         if(!start){
             start = now;
