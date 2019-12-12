@@ -79,3 +79,31 @@ console.log(['1.1', '2', '0.3'].map(parse))  // [1,2,0]
         }
         return result
     }
+
+ES5/ES6 的继承除了写法以外还有什么区别？
+    继承的区别
+    function father{}
+    function son{}
+    son.prototype = new father()
+    son.prototype.constructor = father
+    son.__proto__ == Function.prototype
+    -----
+    class father{}
+    class son extends father{}
+    son.__proto__ == father
+
+    class 内部使用严格模式
+    class 声明会提升，但不会初始化赋值。Foo 进入暂时性死区，类似于 let、const 声明变量。
+    const bar = new Bar(); // it's ok
+        function Bar() {
+        this.bar = 42;
+    }
+
+    const foo = new Foo(); // ReferenceError: Foo is not defined
+    class Foo {
+        constructor() {
+            this.foo = 42;
+        }
+    }
+    class 所有方法都是不可枚举的
+    class 不携带new会报错
