@@ -50,3 +50,32 @@ console.log(['1.1', '2', '0.3'].map(parse))  // [1,2,0]
     WeakSet 只能储存对象引用  add has delete
     Map  是以[key,value]储存的 是 值-值的对应 而对象是是将所有的key都转为字符串 是字符串-值得对应  set get delete has clear size  keys values entries 
     WeakMap 只接受对象作为键名（null除外） 防止内存泄露
+
+介绍下深度优先遍历和广度优先遍历，如何实现？
+    深度优先 对象深拷贝
+    function deep(node,list=[]){
+        if(node){
+            list.push(node)
+            for(let i = 0; i < node.children.length; i++){
+                deep(node.children,list)
+            }
+        }else{
+            return list
+        }
+    }
+    广度优先
+    function bfs(node){
+        let result = []
+        let stack = []
+        if(node){
+            stack.push(node)
+            while(stack.length){
+                let item = stack.shift()
+                result.push(item)
+                for(i = 0; i < item.children.length; i++){
+                    stack.push(item.children[i])
+                }
+            }
+        }
+        return result
+    }
