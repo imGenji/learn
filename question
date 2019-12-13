@@ -107,3 +107,68 @@ ES5/ES6 的继承除了写法以外还有什么区别？
     }
     class 所有方法都是不可枚举的
     class 不携带new会报错
+    class 不可在内部重写类名
+
+setTimeout Promise Async/Await
+    setTimeout 进入event loop 队列
+    promise 进入主线程的微任务里
+    async 返回promise 遇到await就等待返回 类似co genarator
+    {
+        console.log('start')
+        let promise1 = new Promise(function (resolve) {
+            console.log('promise1')
+            resolve()
+            console.log('promise1 end')
+        }).then(function () {
+            console.log('promise2')
+        })
+        setTimeout(function(){
+            console.log('settimeout')
+        })
+        console.log('end')
+    } 
+    start--promise1--promise1 end--end--promise2--settimeout
+    {
+        async function async1(){
+            console.log('async1 start');
+            await async2();
+            console.log('async1 end')
+        }
+        async function async2(){
+            console.log('async2')
+        }
+
+        console.log('script start');
+        async1();
+        console.log('script end')
+    }
+    script start--async1 start--async2--script end--async1 end
+    {
+        setTimeout(() => console.log(1));
+        setImmediate(() => console.log(2));
+        process.nextTick(() => console.log(3));
+        Promise.resolve().then(() => console.log(4));
+        (() => console.log(5))();
+    }
+    5--3--4--1--2 
+    {
+        const fs = require('fs');
+        const timeoutScheduled = Date.now();
+
+        // 异步任务一：100ms 后执行的定时器
+        setTimeout(() => {
+            const delay = Date.now() - timeoutScheduled;
+            console.log(`${delay}ms`);
+        }, 100);
+
+        // 异步任务二：文件读取后，有一个 200ms 的回调函数
+        fs.readFile('test.js', () => {
+            const startCallback = Date.now();
+            while (Date.now() - startCallback < 200) {
+                // 什么也不做
+        }
+        });
+    }
+    log(200+ms)
+
+Async/Await 如何通过同步的方式实现异步？
