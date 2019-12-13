@@ -171,4 +171,4 @@ setTimeout Promise Async/Await
     }
     log(200+ms)
 
-Async/Await 如何通过同步的方式实现异步？
+Async/Await 如何通过同步的方式实现异步
