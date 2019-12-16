@@ -213,7 +213,7 @@ var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 
     数组扁平化
     arr.flat
     arr.toString().split(',')
-    function flat(arr,deep=1){
+    function flatDeep(arr,deep=1){
         return deep > 0 ? arr.reduce((acc,val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), []):arr.slice()
     }
     堆栈
@@ -230,4 +230,41 @@ var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 
         }
         return res
     }
+
+JS 异步解决方案的发展历程以及优缺点
+    回调函数  promise(链式调用 无法取消)  genarater async/await
+    let a = 0
+    let b = async () => {
+    a = a + await 10
+    console.log('2', a) 
+    }
+    b()
+    a++
+    console.log('1', a) 
+     1 1
+     2 10
+
+Promise 构造函数是同步执行还是异步执行，那么 then 方法呢？
+    构造函数同步 then放到微任务里 等待主线程任务执行完后再执行
+
+如何实现一个 new
+    function _new(fn,...args){
+        // 创建一个新对象
+        // 对象的__proto__指向构建函数的prototype
+        const newObj = Object.creat(fn.prototype)
+          // 执行代码时候, 绑定this指向新的对象
+        const res = fn.apply(newObj,args)
+         // 如果构造函数有返回值, 返回构造函数的值, 否则返回新对象
+        return Object.prototype.toString.call(res) === '[object Object]' ? res : newObj
+    }
+
+简单讲解一下http2的多路复用
+    http1 每次请求都会建立一个http连接 
+    http2 的多路复用同域名下所有的通信都在单个连接上完成 
+    http2中的帧跟流 
+    帧代表着最小的数据单位，每个帧会标识出该帧属于哪个流，流也就是多个帧组成的数据流。
+    多路复用，就是在一个 TCP 连接中可以存在多条流。换句话说，也就是可以发送多个请求，对端可以通过帧中的标识知道属于哪个请求。
+    通过这个技术，可以避免 HTTP 旧版本中的队头阻塞问题，极大的提高传输性能。
+
+
 
