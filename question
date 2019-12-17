@@ -303,3 +303,87 @@ React 中 setState 什么时候是同步的，什么时候是异步的？
 
     react中 0 0 2 3
     preact中 1 2 3 4
+
+介绍下 npm 模块安装机制，为什么输入 npm install 就可以自动安装对应的模块？
+    根据package.json里的dependencies和devdependencies确定首层依赖
+    递归获取模块信息
+    扁平化去除重复模块 重复模块有兼容版本就是用兼容版本
+    向registry查询下载地址
+    下载压缩包放到.npm 里
+    解压到node_modules
+
+Object.prototype.toString.call() 、 instanceof 以及 Array.isArray() 区别
+    toString 是Array.isArray的polyfill
+    instanceof是根据原型链来判断的 会判断这个对象的原型链上是否会找到对应的 Array 的原型 会有iframe 不一致的问题
+
+介绍下重绘和回流（Repaint & Reflow），以及如何进行优化
+    repaint 不会影响布局的 改变颜色
+    reflow 影响页面布局的 或者获取布局信息（width offsetwidth scrolltop getcomputedstyle()） 
+    因为浏览器通过队列机制来批量更新 会把待修改的放在队列中 一个更新周期(16.6ms)才会更新 当获取布局信息时 队列中有
+    些操作可能会影响要获取的布局信息 所以会强制触发一次回流
+    优化
+    能用重绘就重绘
+    少用.style.xx  合并为 el.style.cssText += 'border-left: 1px; border-right: 2px; padding: 5px;';
+    避免频繁操作样式 dom 读取布局信息  
+    使用document fragment
+
+介绍下观察者模式和订阅-发布模式的区别，各自适用于什么场景
+    观察者模式是观察者跟被观察者直接相关联的 addeventlistener 就属于观察者模式 js跟dom绑定 vue的双向绑定
+    class Subject{
+    constructor(){
+        this.subs = [];
+    }
+    addSub(sub){
+        this.subs.push(sub);
+    }
+    notify(){
+        this.subs.forEach(sub=> {
+            sub.update();
+            });
+        }
+    }
+    class Observer{
+        update(){
+            console.log('update');
+        }
+    }
+    let subject = new Subject();
+    let ob = new Observer();
+    //目标添加观察者了
+    subject.addSub(ob);
+    //目标发布消息调用观察者的更新方法了
+    subject.notify();   //update
+    订阅-发布模式 比观察者模式中间多了一层对象 用来订阅 发布 event.on event.emit 通过event来发布订阅 
+    订阅者 发布者不知晓对方的存在
+    var pubsub = (()=>{
+    var topics = {};
+    function subscribe(topic,fn){
+        if(!topics[topic]){
+        topics[topic] = [];  
+        }
+        topics[topic].push(fn);
+    }
+    function publish(topic,...args){
+        if(!topics[topic])
+        return;
+        for(let fn of topics[topic]){
+        fn(...args);  
+        }
+    }
+    return {
+        subscribe,
+        publish
+    }
+    })()
+    pubsub.subscribe('test',function(a,b){  //订阅者A订阅了test事件
+    console.log(a,b);    
+    });
+    pubsub.publish('test','123','HH'); //发布者发布了了test事件
+
+redux跟vuex设计思想
+    相同点 都是处理全局状态的库 全局state=>dispatch(action)=>reducer=>新state
+    不同点 异步处理不同 redux需要通过中间件
+
+浏览器和Node 事件循环的区别
+    差异体现在nodeV10之前
+    浏览器是执行完一个宏任务就会去清空微任务队列；node则是将同源的宏任务队列执行完毕后再去清空微任务队列
