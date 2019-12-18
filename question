@@ -406,4 +406,92 @@ redux跟vuex设计思想
     es5中 顶层对象跟全局变量是等价的
     es6中 这是属于块级作用域 跟顶级对象是分开的 在一个block中 直接获取
 
+cookie 和 token 都存放在 header 中，为什么不会劫持 token
+    xss 通过脚本获取用户信息
+    csrf 内嵌img src是银行的转账信息 如果刚访问过银行 保留cookie的话 则会csrf成功
+    CSRF攻击的原因是浏览器会自动带上cookie，而浏览器不会自动带上token
+    
+请把两个数组 ['A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'D1', 'D2'] 和 
+['A', 'B', 'C', 'D']，合并为 ['A1', 'A2', 'A', 'B1', 'B2', 'B', 'C1', 'C2', 'C', 'D1', 'D2', 'D']
+    1 function combineArr(a1, a2) {
+        const ret = a2.map((item, index) => {
+            return [a1[index * 2], a1[index * 2 + 1], item]
+        })
+        return ret.toString().split(',')
+    }
+    2 const res = ["A", "B", "C", "D"].reduce(
+        (memo, item) => {
+            const tmp = [...memo].reverse();
+            const idx = memo.length - tmp.findIndex(i => i.startsWith(item)) - 1;
+
+            return [...memo.slice(0, idx + 1), item, ...memo.slice(idx + 1)];
+        },
+        ["A1", "A2", "B1", "B2", "C1", "C2", "D1", "D2"]
+        );
+
+输出0-9 所有写法
+for (var i = 0; i< 10; i++){
+	setTimeout(() => {
+		console.log(i);
+    }, 1000)
+}
+    1 let
+    2 setTimeout传入第三个参数及以后的会当作回调函数的参数使用
+    for (var i = 0; i< 10; i++){
+        setTimeout((i) => {
+            console.log(i);
+        }, 1000,i)
+    }
+    3 闭包
+    for (var i = 0; i< 10; i++){
+       ((i) => {
+        setTimeout(() => {
+            console.log(i);
+            }, 1000)
+        })(i)
+    }
+
+下面函数打印什么?
+var b = 10
+(function b(){
+    b = 20;
+    console.log(b); 
+})(); 
+    function b(){
+        b = 20;
+        console.log(b); 
+    }
+    内部是立即执行的具名函数表达式 变量为只读属性，不可修改 严格模式会报错Assignment to constant variable
+    var b = 10;
+    (function b() {
+        var b = 20; // IIFE内部变量
+        console.log(b); // 20
+        console.log(window.b); // 10 
+    })();
+
+浏览器缓存读取规则 以及储存四个位置
+    强缓存 
+    不会向服务器发请求 直接从缓存中获取 
+    Expires 指定资源过期时间 修改本地时间会失效 http1
+    Cache-Control 有不同的属性来控制缓存 如max-age xxx秒后失效 no-chache 使用协商缓存 不使用 Cache-Control http1.1
+    Cache-Control优先级高于Expires
+    协商缓存
+    会请求服务器 由服务器判断是否使用缓存 返回304使用缓存 200不使用直接用新的
+    服务端返回Last-Modified 下次请求会带上If-Modified-Since 服务端会判断  本地改文件不会刷新
+    服务端返回ETag 请求带上If-None-Match 是文件的唯一标识 解决last-modified问题 
+    etag优先级高于last 但性能不如
+    强缓存优先级高于协商缓存
+    应用 
+    频繁变动的资源 Cache-Control: no-cache 每次由服务器决定使不使用缓存
+    不常变化的资源 Cache-Control: max-age=31536000 如果想使用改变uri 文件hash 等冬天字符
+    四个位置
+    Service Worker 是运行在浏览器背后的独立线程 传输协议必须为 HTTPS
+    Memory Cache 内存中 速度快 关闭页面后清除
+    Disk Cache 硬盘 
+    Push Cache 会话中
+    对于大文件来说，大概率是不存储在内存中的，反之优先
+    当前系统内存使用率高的话，文件优先存储进硬盘
+
+
+
 
