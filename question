@@ -508,5 +508,49 @@ if(a == 1 && a == 2 && a == 3){
     a.toString = a.shift;
 
 介绍下 BFC 及其应用
+    块级格式化上下文
+    生成条件 
+    display inline-block flex table-cells
+    float除none外
+    绝对定位 absolute fiexd
+    overflow 除visible外的 
+    display:flow-root  新的属性 为bfc准备的
+    作用
+    两个bfc解决元素塌陷
+    里外元素互不影响
+    清除浮动 
+    防止文字环绕
 
+子组件为何不可以修改父组件传递的 Props
+    保证数据源唯一
+    数据单向流动的
+
+var a = 10;
+(function () {
+    console.log(a)
+    a = 5
+    console.log(window.a)
+    var a = 20;
+    console.log(a)
+})()
+    undefined 10 20 
+(function () {
+    console.log(a)
+    a = 5
+    console.log(window.a)
+    console.log(a)
+})()
+    10 5 5
+
+实现一个 sleep 函数
+    function sleep(){
+        return new Promise(function(resolve,reject){
+            setTimeout(()=>resolve(),1000)
+        })
+    }
+    sleep().then(()=>{xxxxx})
+
+使用 sort() 对数组 [3, 15, 8, 29, 102, 22] 进行排序，输出结果
+    直接sort 102 15 22 29 3 8 默认会将数组元素转为字符串 
+    arr.sort((a,b)=>a-b)
 
