@@ -213,10 +213,9 @@ var arr = [ [1, 2, 2], [3, 4, 5, 5], [6, 7, 8, 9, [11, 12, [12, 13, [14] ] ] ], 
     数组扁平化
     arr.flat
     arr.toString().split(',')
-    function flatDeep(arr,deep=1){
-        return deep > 0 ? arr.reduce((acc,val) => acc.concat(Array.isArray(val) ? flatDeep(val, d - 1) : val), []):arr.slice()
-    }
-    堆栈
+    递归实现
+    flatDeep1 = array => array.reduce((acc, cur) => (Array.isArray(cur) ? [...acc, ...flatDeep1(cur)] : [...acc, cur]), [])
+    迭代实现
     function flat(arr){
         const stack=[...arr]
         const res = []
@@ -492,6 +491,22 @@ var b = 10
     对于大文件来说，大概率是不存储在内存中的，反之优先
     当前系统内存使用率高的话，文件优先存储进硬盘
 
+为什么 Vuex 的 mutation 和 Redux 的 reducer 中不能做异步操作？
+    reducer 是唯一更改state的地方 必须是纯函数 异步操作结果不可预测 有副作用
 
+var a = ?;
+if(a == 1 && a == 2 && a == 3){
+ 	console.log(1);
+}
+    a={
+        i,
+        toString:()=>{
+            return this.i+1
+        }
+    }
+    let a = [1,2,3];
+    a.toString = a.shift;
+
+介绍下 BFC 及其应用
 
 
