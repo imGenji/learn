@@ -562,4 +562,26 @@ HTTPS 握手过程中，客户端如何验证证书的合法性
     服务端将证书给客户端 客户端用证书的CA信息 域名信息 过期时间等判断证书是不是服务端颁发的 然后用CA公钥解密签名 
     然后将证书信息hash 看是否跟解密签名一致 证明证书是否被修改
     为何CA不直接把证书信息私钥加密而是明文+签名形式 因为颁发CA的公司很多
+
+var obj = {
+    '2': 3,
+    '3': 4,
+    'length': 2,
+    'splice': Array.prototype.splice,
+    'push': Array.prototype.push
+}
+obj.push(1)
+obj.push(2)
+console.log(obj)
+    类数组对象 [empty × 2, 1, 2, splice: ƒ, push: ƒ]
+    push方法具有通用性 会在obj.length处进行操作 
+    obj['2']=1 并改变length 
+    obj['3']=3 并改变length
+    控制台对类数组的定义为有length且>0且有splice方法
+
+call apply 区别 哪个性能更好
+    apply 参数是数组
+    call  后面的参数都会传入
+    call性能好 参数直接使用 apply还有一个将数组参数转化的过程
     
+
