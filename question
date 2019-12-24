@@ -584,4 +584,17 @@ call apply 区别 哪个性能更好
     call  后面的参数都会传入
     call性能好 参数直接使用 apply还有一个将数组参数转化的过程
     
+为什么通常在发送数据埋点请求的时候使用的是 1x1 像素的透明 gif 图片？
+    跨域问题 （不直接用get post的原因）
+    执行过程无阻塞（不用请求文件方法的原因 ）
+    是一次完整的网络请求 
+    小（不用png的原因）
+
+实现 (5).add(3).minus(2) 功能 
+    Number.prototype.add=function(count){
+        return this+count
+    }
+    Number.prototype.minus=function(count){
+        return this-count
+    }
 
