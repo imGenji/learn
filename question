@@ -634,4 +634,78 @@ console.log(b.x)
         for(i = 0; i < 12; i++){
             obj[i]?arr.push(obj[i]):arr.push(null)
         }
+        return res
     }
+
+要求设计 LazyMan 类，实现以下功能。
+azyMan('Tony');
+// Hi I am Tony
+
+LazyMan('Tony').sleep(10).eat('lunch');
+// Hi I am Tony
+// 等待了10秒...
+// I am eating lunch
+
+LazyMan('Tony').eat('lunch').sleep(10).eat('dinner');
+// Hi I am Tony
+// I am eating lunch
+// 等待了10秒...
+// I am eating diner
+
+LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk food');
+// Hi I am Tony
+// 等待了5秒...
+// I am eating lunch
+// I am eating dinner
+// 等待了10秒...
+// I am eating junk food
+    function LazyMan(){
+        class Man{
+            constructor(name){
+                this.task = []
+                console.log('Hi I am ' + name)
+                return this
+            }
+            doNext=()=>{
+                let item = this.task.shift()
+                item && item()
+            }
+            eat = (type) => {
+                this.task.push(()=>{
+                    console.log('i am eating' + type)
+                })
+            }
+            _sleep = (timer) => {
+                return new Promise((resolve,reject)=>{
+                    setTimeout(()=> {
+                        resolve()
+                    },time)
+                })
+            }
+            sleep = (time) => {
+                this.task.push(()=>{
+                    this._sleep(time).then(()=> {
+                        console.log('等了'+time+'秒')
+                        this.next()
+                    })
+                })
+                return this
+            }
+            sleepFirst = (time) => {
+                this.task.unshift(()=>{
+                    this._sleep(time).then(()=> {
+                        console.log('等了'+time+'秒')
+                        this.next()
+                    })
+                })
+                return this
+            }
+
+        }
+        return new Man(name)
+    }
+
+分析比较 opacity: 0、visibility: hidden、display: none 优劣和适用场景
+    display     重绘    不占据页面空间  不可点击    非继承属性
+    visibility  回流    占据           不可点击    继承
+    opacity     回流    占据           可以点击    非继承属性
