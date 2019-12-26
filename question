@@ -598,3 +598,40 @@ call apply 区别 哪个性能更好
         return this-count
     }
 
+div水平居中
+    flex
+    position absolute top right tansform:translate(-50%,-50%)
+
+var a = {n: 1};
+var b = a;
+a.x = a = {n: 2};
+console.log(a.x)
+console.log(b.x)
+    undefined
+    {n:2}
+    .的优先级高于= 先执行a.x=undefined 此时的a是{n:1,x:undefined}
+    =从右至左执行  a指向新的地址{n:2} {n:1}.x也指向{n:2}
+    最后新a为{n:2} b为{n:1,x:{n:2}}
+
+冒泡排序如何实现，时间复杂度是多少， 还可以如何改进？
+    function bubbleSort(arr){
+        for(var i = 0; i < arr.length; i++){
+            for(var j = i; j < arr.length; j++){
+                if(arr[i] < arr[j]){
+                    var temp = arr[i]
+                    arr[i] = arr[j]
+                    arr[j] = temp
+                }
+            }
+        }
+        return arr
+    }
+
+如下：{1:222, 2:123, 5:888}，
+请把数据处理为如下结构：[222, 123, null, null, 888, null, null, null, null, null, null, null]   
+    function trans(obj){
+        let res = []
+        for(i = 0; i < 12; i++){
+            obj[i]?arr.push(obj[i]):arr.push(null)
+        }
+    }
