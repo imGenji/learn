@@ -794,10 +794,12 @@ es6代码转换成es5代码的实现思路是什么
         var obj = {}
         arr.forEach(item => {
             obj[parseInt(item/10)] && obj[parseInt(item/10)].length > 0 ? obj[parseInt(item/10)].push : 
-            obj[parseInt(item/10)] = []
+            obj[parseInt(item/10)] = [item]
         })
         let res = []
         for(let i in obj){
-            res.push(i)
+            res.push(obj[i])
         }
+        return res
     }
+    
