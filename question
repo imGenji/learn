@@ -758,4 +758,46 @@ jwt流程
     后台生成secret 对上面两个部分加上secret生成签名
     下次带上该jwt
     后台通过签名看是否被人修改
+
+redux 为什么要把 reducer 设计成纯函数
+    纯函数没有副作用
+    什么样的输入就有什么样的输出
+    使得对于状态的修改是可回溯的
+
+如何实现无缝轮播 
+    复制第一个放在最后
+    轮播到复制的最后一个的时候 将位置重置为第一个
     
+模拟实现一个Promise.finally()
+    Promise.prototype.finally = function(callback){
+        const p = this.constructor
+        return this.then(
+            value  => P.resolve(callback()).then(() => value),
+            reason => P.resolve(callback()).then(() => { throw reason })
+        )
+    }
+
+es6代码转换成es5代码的实现思路是什么
+    将代码字符串解析成抽象语法树，即所谓的 AST
+    对 AST 进行处理，在这个阶段可以对 ES6 代码进行相应转换，即转成 ES5 代码
+    根据处理后的 AST 再生成代码字符串
+
+随机生成一个长度为 10 的整数类型的数组，例如 [2, 10, 3, 4, 5, 11, 10, 11, 20]，
+将其排列成一个新数组，要求新数组形式如下，例如 [[2, 3, 4, 5], [10, 11], [20]]。
+    function transArr(length){
+        var arr = []
+        for(let i = 0; i < length; i++){
+            arr.push(Math.floor(Math.random()*100))
+        }
+        arr.sort((a,b)=>a-b)
+        arr=[...new Set(arr)]
+        var obj = {}
+        arr.forEach(item => {
+            obj[parseInt(item/10)] && obj[parseInt(item/10)].length > 0 ? obj[parseInt(item/10)].push : 
+            obj[parseInt(item/10)] = []
+        })
+        let res = []
+        for(let i in obj){
+            res.push(i)
+        }
+    }
