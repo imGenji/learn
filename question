@@ -687,7 +687,7 @@ LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk foo
                     this._sleep(time).then(()=> {
                         console.log('等了'+time+'秒')
                         this.next()
-                    })
+                    -
                 })
                 return this
             }
@@ -717,3 +717,45 @@ LazyMan('Tony').eat('lunch').eat('dinner').sleepFirst(5).sleep(10).eat('junk foo
     没有arguements对象
     不可以 因为this无法指向实例对象 同时也没有prototype new时 会将实例对象的__proto__指向prototype
 
+给定两个数组，写一个方法来计算它们的交集。
+例如：给定 nums1 = [1, 2, 2, 1]，nums2 = [2, 2]，返回 [2, 2]
+    function interset(num1,num2){
+        const obj = {}
+        const res = []
+        num1.forEach(item => {
+            obj[item]?obj[item]++:obj[item]=1
+        })
+        num2.forEach(item => {
+            if(obj[item]){
+                res.push(item)
+                obj[item]--
+            }
+        })
+        return res
+    }
+    function interset2(num1,num2){
+        var res = []
+        num1.forEach(item => {
+            let index = num2.indexOf(item)
+            if(index > -1){
+                res.push(num2.splice(index,1)[0])
+            }
+        })
+        return res
+    }
+
+已知如下代码，如何修改才能让图片宽度为 300px ？注意下面代码不可修改。
+<img src="1.jpg" style="width:480px!important;”>
+    max-width:300px
+    transform:scale(300/400)
+
+jwt流程
+    jwt串分为三个部分
+    第一部分为算法
+    第二部分各种信息
+    第三部分为签名 防止更改
+    签名生成规则为
+    后台生成secret 对上面两个部分加上secret生成签名
+    下次带上该jwt
+    后台通过签名看是否被人修改
+    
