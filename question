@@ -802,4 +802,21 @@ es6代码转换成es5代码的实现思路是什么
         }
         return res
     }
-    
+
+
+如何把一个字符串的大小写取反（大写变小写小写变大写），例如 ’AbC' 变成 'aBc' 。
+    function transfer(str){
+        var res = ''
+        str.split('').forEach(item => {
+            item == item.toLowerCase() ? res += item.toUpperCase() : res += item.toLowerCase()
+        })
+        return res
+    }
+    ascii码
+    function transfer1(str){
+        var res = ''
+        str.split('').forEach(item => {
+            item.charCodeAt()  < 'a'.charCodeAt() ? res += String.fromCharCode(item.charCodeAt()+32) :  res += String.fromCharCode(item.charCodeAt()-32)
+        })
+        return res 
+    }
