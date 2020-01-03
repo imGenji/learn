@@ -820,3 +820,46 @@ es6代码转换成es5代码的实现思路是什么
         })
         return res 
     }
+
+实现一个字符串匹配算法，从长度为 n 的字符串 S 中，查找是否存在字符串 T，T 的长度是 m，若存在返回所在位置。
+    function find(S,T){
+        if(S.length < T.length)return -1
+        for(let i = 0; i < S.length; i++){
+            if(S.slice(i,i+T.length) == T) return i
+        }
+        return -1
+    }
+
+ 为什么普通 for 循环的性能远远高于 forEach 的性能，请解释其中的原因。
+    for 循环没有任何额外的函数调用栈和上下文
+    forEach函数不是普通的 for 循环的语法糖，还有诸多参数和上下文需要在执行的时候考虑进来，这里可能拖慢性能
+    不过因为对forEach有优化 因此10w一下时forEach快于for
+    大数据量时for速度快于forEach
+
+数组里面有10万个数据，取第一个元素和第10万个元素的时间相差多少
+    使用索引取值 没影响 跟对象类似
+
+// example 1
+var a={}, b='123', c=123;  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+---------------------
+// example 2
+var a={}, b=Symbol('123'), c=Symbol('123');  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+---------------------
+// example 3
+var a={}, b={key:'123'}, c={key:'456'};  
+a[b]='b';
+a[c]='c';  
+console.log(a[b]);
+
+    c 对象是以字符串储存的
+    b Symbol都不同
+    c 调用toString()为 [object Object]
+

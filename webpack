@@ -16,3 +16,5 @@ module 模块处理规则(loader)
 resolve 寻找模块规则
 plugins 扩展插件
 devServer 
+
+异步加载 为每个路由页面都生成一个js require.ensure([],require('xx'))
