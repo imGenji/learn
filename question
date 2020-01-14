@@ -894,5 +894,49 @@ console.log(a[b]);
         return array;
     }
 
+var、let 和 const 区别的实现原理是什么
+    变量的创建有三个过程 创建 初始化 赋值
+    console.log(a) 
+    var a = 1
+    // undefined
+    在执行时 找到所有的var 完成创建 并完成a的初始化 初始化为undefied 这两步是有提升效果的
+    因此打印undefied 最后执行a=1
+    aa()
+    function aa(){xxx}
+    在执行时 找到function关键字 完成创建 完成初始化 并 赋值 这三步都存在变量提升
+    console.log(b)
+    let b = 1
+    在执行时 执行到let时才进行创建 因此在这之前会报错 暂时性死区 
 
+实现一个函数 完成以下功能
+add(1); 		// 1
+add(1)(2);      // 3
+add(1)(2)(3);   // 6
+add(1)(2, 3);   // 6
+add(1, 2)(3);   // 6
+add(1, 2, 3);   // 6
+    function add(a) {
+        function sum(b) { // 使用闭包
+            a = a + b; // 累加
+            return sum;
+        }
+        sum.toString = function() { // 重写toString()方法
+            return a;
+        }
+        return sum; // 返回一个函数
+    }
+
+    function add(...args) {
+    let sum = 0;
+    const innerAdd = (...args) => {
+        args.forEach(i => (sum += i));
+        return innerAdd;
+    };
+    innerAdd.toString = () => sum;
+    return innerAdd(...args);
+    }
+
+react-router 中的 Link 标签 跟 a 标签有什么区别
+    从最终渲染的 DOM 来看，这两者都是链接，都是 <a> 标签，区别是：<Link> 是 react-router 里实现路由跳转的链接，一般配合 <Route> 使用，react-router 接管了其默认的链接跳转行为，区别于传统的页面跳转，<Link> 的“跳转”行为只会触发相匹配的 <Route> 对应的页面内容更新，而不会刷新整个页面。
+    而 <a> 标签就是普通的超链接了，用于从当前页面跳转到 href 指向的另一个页面（非锚点情况）
 
