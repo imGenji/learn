@@ -940,3 +940,27 @@ react-router 中的 Link 标签 跟 a 标签有什么区别
     从最终渲染的 DOM 来看，这两者都是链接，都是 <a> 标签，区别是：<Link> 是 react-router 里实现路由跳转的链接，一般配合 <Route> 使用，react-router 接管了其默认的链接跳转行为，区别于传统的页面跳转，<Link> 的“跳转”行为只会触发相匹配的 <Route> 对应的页面内容更新，而不会刷新整个页面。
     而 <a> 标签就是普通的超链接了，用于从当前页面跳转到 href 指向的另一个页面（非锚点情况）
 
+给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。
+你可以假设每个输入只对应一种答案，且同样的元素不能被重复利用。
+示例：
+给定 nums = [2, 7, 11, 15], target = 9
+因为 nums[0] + nums[1] = 2 + 7 = 9
+所以返回 [0, 1]
+    function count(arr,target){
+        for(let i = 0; i < arr.length; i++){
+            for(let j = i + 1; j < arr.length; j ++){
+                if(arr[i] + arr[j] == target){ return [i,j]}
+            }
+        }
+    }
+
+输入框中如何判断输入的网址是一个正确的网址
+    function isUrl(url) {
+       try {
+            new URL(url);
+            return true;
+        }
+        catch(err){
+            return false;
+    }}
+
